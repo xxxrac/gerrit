@@ -35,7 +35,6 @@ import static com.google.gerrit.common.PageLinks.SETTINGS_GPGKEYS;
 import static com.google.gerrit.common.PageLinks.SETTINGS_HTTP_PASSWORD;
 import static com.google.gerrit.common.PageLinks.SETTINGS_MYGROUPS;
 import static com.google.gerrit.common.PageLinks.SETTINGS_NEW_AGREEMENT;
-import static com.google.gerrit.common.PageLinks.SETTINGS_OAUTH_TOKEN;
 import static com.google.gerrit.common.PageLinks.SETTINGS_PREFERENCES;
 import static com.google.gerrit.common.PageLinks.SETTINGS_PROJECTS;
 import static com.google.gerrit.common.PageLinks.SETTINGS_SSHKEYS;
