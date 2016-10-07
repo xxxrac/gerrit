@@ -180,6 +180,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
         info.registerUrl = cfg.getRegisterUrl();
         info.registerText = cfg.getRegisterText();
         info.editFullNameUrl = cfg.getEditFullNameUrl();
+        info.isGitBasicAuth = toBoolean(cfg.isGitBasicAuth());
         break;
 
       case CUSTOM_EXTENSION:

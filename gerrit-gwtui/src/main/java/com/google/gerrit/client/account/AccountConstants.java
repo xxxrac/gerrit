@@ -58,7 +58,6 @@ public interface AccountConstants extends Constants {
   String tabGpgKeys();
   String tabHttpAccess();
   String tabMyGroups();
-  String tabOAuthToken();
   String tabPreferences();
   String tabSshKeys();
   String tabWatchedProjects();
@@ -82,12 +81,6 @@ public interface AccountConstants extends Constants {
   String linkReloadContact();
   String invalidUserName();
   String invalidUserEmail();
-
-  String labelOAuthToken();
-  String labelOAuthExpires();
-  String labelOAuthNetRCEntry();
-  String labelOAuthGitCookie();
-  String labelOAuthExpired();
 
   String sshKeyInvalid();
   String sshKeyAlgorithm();
