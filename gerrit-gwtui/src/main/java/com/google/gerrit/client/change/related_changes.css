@@ -52,7 +52,7 @@
 .tabPanel .gwt-TabBarItem,
 .tabPanel .gwt-TabBarItem-selected,
 .tabPanel .gwt-TabBarRest {
-  background: none repeat scroll 0 0 #FFF !important;
+  background: none repeat scroll 0 0 #FFF;
 }
 
 .tabPanel .gwt-TabPanelBottom {
