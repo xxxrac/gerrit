@@ -31,7 +31,6 @@ import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
-import com.google.gerrit.server.auth.oauth.OAuthTokenCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -59,8 +58,8 @@ class OAuthSession {
   private final Provider<IdentifiedUser> identifiedUser;
   private final AccountManager accountManager;
   private final CanonicalWebUrl urlProvider;
-  private final OAuthTokenCache tokenCache;
   private OAuthServiceProvider serviceProvider;
+  private OAuthToken token;
   private OAuthUserInfo user;
   private String redirectToken;
   private boolean linkMode;
@@ -69,18 +68,16 @@ class OAuthSession {
   OAuthSession(DynamicItem<WebSession> webSession,
       Provider<IdentifiedUser> identifiedUser,
       AccountManager accountManager,
-      CanonicalWebUrl urlProvider,
-      OAuthTokenCache tokenCache) {
+      CanonicalWebUrl urlProvider) {
     this.state = generateRandomState();
     this.identifiedUser = identifiedUser;
     this.webSession = webSession;
     this.accountManager = accountManager;
     this.urlProvider = urlProvider;
-    this.tokenCache = tokenCache;
   }
 
   boolean isLoggedIn() {
-    return tokenCache.has(user);
+    return token != null && user != null;
   }
 
   boolean isOAuthFinal(HttpServletRequest request) {
@@ -98,12 +95,9 @@ class OAuthSession {
       }
 
       log.debug("Login-Retrieve-User " + this);
-      OAuthToken token = oauth.getAccessToken(
-          new OAuthVerifier(request.getParameter("code")));
+      token = oauth.getAccessToken(new OAuthVerifier(request.getParameter("code")));
+
       user = oauth.getUserInfo(token);
-      if (user != null && token != null) {
-        tokenCache.put(user, token);
-      }
 
       if (isLoggedIn()) {
         log.debug("Login-SUCCESS " + this);
@@ -215,7 +209,7 @@ class OAuthSession {
   }
 
   void logout() {
-    tokenCache.remove(user);
+    token = null;
     user = null;
     redirectToken = null;
     serviceProvider = null;
@@ -247,8 +241,7 @@ class OAuthSession {
 
   @Override
   public String toString() {
-    return "OAuthSession [token=" + tokenCache.get(user) + ", user=" + user
-        + "]";
+    return "OAuthSession [token=" + token + ", user=" + user + "]";
   }
 
   public void setServiceProvider(OAuthServiceProvider provider) {
