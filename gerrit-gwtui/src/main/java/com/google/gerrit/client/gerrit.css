@@ -410,7 +410,7 @@ a:hover {
 
 .changeTable a.gwt-InlineHyperlink,
 .changeTable a.gwt-Anchor {
-  color: #222 !important;
+  color: #222;
 }
 
 .changeTable .changeSize {
