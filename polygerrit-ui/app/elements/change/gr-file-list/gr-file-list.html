@@ -89,7 +89,8 @@ limitations under the License.
       .invisible {
         visibility: hidden;
       }
-      .row:not(.header) .stats {
+      .row:not(.header) .stats,
+      .total-stats {
         font-family: var(--monospace-font-family);
       }
       .added {
@@ -107,6 +108,11 @@ limitations under the License.
       }
       .fileListButton {
         margin: .5em;
+      }
+      .totalChanges {
+        justify-content: flex-end;
+        padding-right: 2.6em;
+        text-align: right;
       }
       input.show-hide {
         display: none;
@@ -147,9 +153,18 @@ limitations under the License.
         /
         <gr-button link on-tap="_collapseAllDiffs">Hide diffs</gr-button>
         /
+        <select
+            id="modeSelect"
+            is="gr-select"
+            bind-value="{{diffViewMode}}"
+            on-change="_handleDropdownChange">
+          <option value="SIDE_BY_SIDE">Side By Side</option>
+          <option value="UNIFIED_DIFF">Unified</option>
+        </select>
+        /
         <label>
           Diff against
-          <select on-change="_handlePatchChange">
+          <select id="patchChange" on-change="_handlePatchChange">
             <option value="PARENT">Base</option>
             <template is="dom-repeat" items="[[_computePatchSets(revisions, patchRange.*)]]" as="patchNum">
               <option
@@ -201,7 +216,8 @@ limitations under the License.
         </div>
       </div>
       <gr-diff
-          hidden$="[[_computeHiddenState(file.__expanded)]]"
+          hidden$="[[!file.__expanded]]"
+          expanded="[[file.__expanded]]"
           project="[[change.project]]"
           commit="[[change.current_revision]]"
           change-num="[[changeNum]]"
@@ -209,8 +225,14 @@ limitations under the License.
           path="[[file.__path]]"
           prefs="[[_diffPrefs]]"
           project-config="[[projectConfig]]"
-          view-mode="[[_userPrefs.diff_view]]"></gr-diff>
+          view-mode="[[_diffMode]]"></gr-diff>
     </template>
+    <div class="row totalChanges">
+      <div class="total-stats" hidden$="[[_hideChangeTotals]]">
+        <span class="added">+[[_patchChange.inserted]]</span>
+        <span class="removed">-[[_patchChange.deleted]]</span>
+      </div>
+    </div>
     <gr-button
         class="fileListButton"
         id="incrementButton"

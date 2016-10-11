@@ -25,7 +25,7 @@ class FinalUpdatesEvent extends Event {
   private final Change noteDbChange;
 
   FinalUpdatesEvent(Change change, Change noteDbChange) {
-    super(change.currentPatchSetId(), change.getOwner(),
+    super(change.currentPatchSetId(), change.getOwner(), change.getOwner(),
         change.getLastUpdatedOn(), change.getCreatedOn(), null);
     this.change = change;
     this.noteDbChange = noteDbChange;
@@ -46,8 +46,13 @@ class FinalUpdatesEvent extends Event {
       // TODO(dborowitz): Stamp approximate approvals at this time.
       update.fixStatus(change.getStatus());
     }
-    if (change.getSubmissionId() != null) {
+    if (change.getSubmissionId() != null
+        && noteDbChange.getSubmissionId() == null) {
       update.setSubmissionId(change.getSubmissionId());
+    }
+    if (!Objects.equals(change.getAssignee(), noteDbChange.getAssignee())) {
+      // TODO(dborowitz): Parse intermediate values out from messages.
+      update.setAssignee(change.getAssignee());
     }
     if (!update.isEmpty()) {
       update.setSubjectForCommit("Final NoteDb migration updates");

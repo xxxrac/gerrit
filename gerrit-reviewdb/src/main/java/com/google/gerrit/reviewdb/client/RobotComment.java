@@ -15,12 +15,14 @@
 package com.google.gerrit.reviewdb.client;
 
 import java.sql.Timestamp;
+import java.util.Map;
 import java.util.Objects;
 
 public class RobotComment extends Comment {
   public String robotId;
   public String robotRunId;
   public String url;
+  public Map<String, String> properties;
 
   public RobotComment(Key key, Account.Id author, Timestamp writtenOn,
       short side, String message, String serverId, String robotId,
@@ -39,6 +41,9 @@ public class RobotComment extends Comment {
         .append("robotRunId=").append(robotRunId).append(',')
         .append("lineNbr=").append(lineNbr).append(',')
         .append("author=").append(author.getId().get()).append(',')
+        .append("realAuthor=")
+            .append(realAuthor != null ? realAuthor.getId().get() : "")
+            .append(',')
         .append("writtenOn=").append(writtenOn.toString()).append(',')
         .append("side=").append(side).append(',')
         .append("message=").append(Objects.toString(message, "")).append(',')
@@ -47,7 +52,8 @@ public class RobotComment extends Comment {
         .append("range=").append(Objects.toString(range, "")).append(',')
         .append("revId=").append(revId != null ? revId : "").append(',')
         .append("tag=").append(Objects.toString(tag, "")).append(',')
-        .append("url=").append(url)
+        .append("url=").append(url).append(',')
+        .append("properties=").append(properties != null ? properties : "")
         .append('}')
         .toString();
   }

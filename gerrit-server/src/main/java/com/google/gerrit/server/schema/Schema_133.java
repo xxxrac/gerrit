@@ -11,28 +11,15 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-(function() {
-  'use strict';
 
-  Polymer({
-    is: 'gr-account-link',
+package com.google.gerrit.server.schema;
 
-    properties: {
-      account: Object,
-      avatarImageSize: {
-        type: Number,
-        value: 32,
-      },
-    },
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
-    _computeOwnerLink: function(account) {
-      if (!account) { return; }
-      var accountID = account.email || account._account_id;
-      return '/q/owner:' + encodeURIComponent(accountID) + '+status:open';
-    },
-
-    _computeShowEmail: function(account) {
-      return !!(account && !account.name);
-    },
-  });
-})();
+public class Schema_133 extends SchemaVersion {
+  @Inject
+  Schema_133(Provider<Schema_132> prior) {
+    super(prior);
+  }
+}

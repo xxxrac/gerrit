@@ -35,7 +35,7 @@ class PatchSetEvent extends Event {
   boolean createChange;
 
   PatchSetEvent(Change change, PatchSet ps, RevWalk rw) {
-    super(ps.getId(), ps.getUploader(), ps.getCreatedOn(),
+    super(ps.getId(), ps.getUploader(), ps.getUploader(), ps.getCreatedOn(),
         change.getCreatedOn(), null);
     this.change = change;
     this.ps = ps;
@@ -64,11 +64,6 @@ class PatchSetEvent extends Event {
     if (ps.isDraft()) {
       update.setPatchSetState(PatchSetState.DRAFT);
     }
-  }
-
-  @Override
-  protected boolean isPatchSet() {
-    return true;
   }
 
   private void setRevision(ChangeUpdate update, PatchSet ps)
