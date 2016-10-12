@@ -118,6 +118,11 @@ public final class PatchSetApproval {
     value = src.getValue();
     granted = src.granted;
     realAccountId = src.realAccountId;
+    tag = src.tag;
+  }
+
+  public PatchSetApproval(PatchSetApproval src) {
+    this(src.getPatchSetId(), src);
   }
 
   public PatchSetApproval.Key getKey() {
