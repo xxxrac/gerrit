@@ -49,7 +49,6 @@ import com.google.gerrit.client.account.MyEditPreferencesScreen;
 import com.google.gerrit.client.account.MyGpgKeysScreen;
 import com.google.gerrit.client.account.MyGroupsScreen;
 import com.google.gerrit.client.account.MyIdentitiesScreen;
-import com.google.gerrit.client.account.MyOAuthTokenScreen;
 import com.google.gerrit.client.account.MyPasswordScreen;
 import com.google.gerrit.client.account.MyPreferencesScreen;
 import com.google.gerrit.client.account.MyProfileScreen;
@@ -568,12 +567,6 @@ public class Dispatcher {
 
         if (matchExact(SETTINGS_HTTP_PASSWORD, token)) {
           return new MyPasswordScreen();
-        }
-
-        if (matchExact(SETTINGS_OAUTH_TOKEN, token)
-            && Gerrit.info().auth().isOAuth()
-            && Gerrit.info().auth().isGitBasicAuth()) {
-          return new MyOAuthTokenScreen();
         }
 
         if (matchExact(MY_GROUPS, token)
